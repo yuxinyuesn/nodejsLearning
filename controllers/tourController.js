@@ -12,6 +12,16 @@ exports.CheckId = (req, res, next, val) => {
   next();
 };
 //导出的第二个好处是我不用再把需要的参数导出了，比如tours
+exports.checkBody = (req, res, next) => {
+  console.log(req.body);
+  if (!req.body.name) {
+    res.status(400).json({
+      state: 'fail',
+      message: '没有name',
+    });
+  }
+  next();
+};
 exports.getAllTours = (req, res) => {
   //url的格式是api/版本/数据，符合rest架构原则
   res.status(200).json({

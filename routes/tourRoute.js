@@ -8,7 +8,8 @@ router.param('id', tourController.CheckId);
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(tourController.checkBody, tourController.createTour);
+//这样去链接多种处理，多说一句去学学req和res的结构
 router
   .route('/:id')
   .get(tourController.getTour)
