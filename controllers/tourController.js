@@ -2,6 +2,16 @@ const fs = require('fs');
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
+exports.CheckId = (req, res, next, val) => {
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      state: 'fail',
+      message: '无效id',
+    });
+  }
+  next();
+};
+//导出的第二个好处是我不用再把需要的参数导出了，比如tours
 exports.getAllTours = (req, res) => {
   //url的格式是api/版本/数据，符合rest架构原则
   res.status(200).json({
@@ -20,12 +30,12 @@ exports.getTour = (req, res) => {
   const tour = tours.find((el) => el.id === id);
 
   //记得要确定这个参数有效
-  if (!tour) {
-    return res.status(404).json({
-      state: 'false',
-      message: '无效的id',
-    });
-  }
+  // if (!tour) {
+  //   return res.status(404).json({
+  //     state: 'false',
+  //     message: '无效的id',
+  //   });
+  // }
   res.status(200).json({
     state: 'success',
     data: {
@@ -40,12 +50,12 @@ exports.createTour = (req, res) => {
 exports.updateTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
-  if (!tour) {
-    return res.status(404).json({
-      state: 'fail',
-      message: '无效id',
-    });
-  }
+  // if (!tour) {
+  //   return res.status(404).json({
+  //     state: 'fail',
+  //     message: '无效id',
+  //   });
+  // }
   res.status(200).json({
     state: 'success',
     message: '完成更新',
